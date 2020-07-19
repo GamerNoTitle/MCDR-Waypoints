@@ -19,9 +19,10 @@ help_msg='''
 §b!!wp§r显示本帮助信息
 §b!!wp list§r显示路径点列表
 §b!!wp search <content>§r搜索含有指定内容名字的路径点
+§b!!wp show <content>§r显示名字为指定内容的导航点信息
 §b!!wp add <name> (x) (y) (z) (Dimension) §r添加名为<name>的路径点（x,y,z指定坐标，Dimension为维度，0是主世界，-1是地狱，1是末地，非必须）
 §b!!wp del <name>§r删除名为<name>的路径点（需要MCDR.helper以上权限）
-§b!!wp reload§r重载插件列表
+§b!!wp reload§r重载路径点列表
 '''
 def refresh_list():
     global name,x,y,z,dimension,complicated
@@ -39,7 +40,6 @@ def refresh_list():
         y.append(i[2])
         z.append(i[3])
         dimension.append(i[4])
-    print(name,x,y,z,dimension)
     complicated==False
 refresh_list()
 def create_csv(path):
@@ -60,7 +60,6 @@ def add(server,info,message):
         nbt=get_pos(server,info)
         pos=list(nbt['Pos'])
         Dimension=nbt['Dimension']
-        print(pos)
         x=int(list(pos)[0])
         y=int(list(pos)[1])
         z=int(list(pos)[2])
@@ -99,17 +98,29 @@ def add(server,info,message):
 def is_duplicated(point):
     i=0
     for i in range(len(name)):
-        print(point,name[i])
         if point==name[i]:
             global complicated
             complicated=True
 
 def delete(server,info,point):
     None
-def points_list(server,info):
-    None
+
+def showlist(server,info):
+    if len(name) == 0:
+        server.tell(info.player, '§b[Waypoints]§6导航点列表还是空荡荡的哦~')
+    else:
+        pointlist=''
+        for i in range(0,len(name)):
+            if i==len(name):
+                pointlist=pointlist+name[i]
+            else:
+                pointlist=pointlist+name[i]+', '
+        server.tell(info.player, '§b[Waypoints]§r数据库中有以下导航点： {}'.format(pointlist))
+        server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
+
 def search(server,info,point):
     None
+
 def get_pos(server,info):
     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
     nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
@@ -131,14 +142,13 @@ def on_info(server,info):
             if message[1] == 'add':
                 global complicated
                 is_duplicated(message[2])
-                print(complicated)
                 if complicated==True:
                     server.tell(info.player, '§b[Waypoints]§4名为{}的路径点已存在！'.format(message[2]))
                     refresh_list()
                     complicated=False
                 else:
                     add(server,info,message)
-            if message[1] == 'remove':
+            if message[1] == 'del':
                 None
             
             if message[1] == 'reload':
@@ -147,3 +157,12 @@ def on_info(server,info):
                     server.say('§b[Waypoints]§a由玩家§d{}§a发起的Waypoints重载成功'.format(info.player))
                 except Exception as e:
                     server.say('§b[Waypoints]§4由玩家§d{}§4发起的Waypoints重载失败：{}'.format(info.player,e))
+
+            if message[1] == 'list':
+                showlist(server,info)
+
+            if message[1] == 'search':
+                if len(message) == 2:
+                    server.tell(info.player, '§b[Waypoints]§4请在命令后输入查询的导航点关键词！')
+                if len(message) == 3:
+                    None
