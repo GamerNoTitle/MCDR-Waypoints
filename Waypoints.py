@@ -155,7 +155,18 @@ def search(server,info,point,dim):
     else:
         server.tell(info.player, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§r获取使用方法！')
 
-
+def dimshow(server,info,dim):
+    if int(dim) == 0:
+        dimension_name = '§a主世界'
+    if int(dim) == 1:
+        dimension_name = '§2末地'
+    if int(dim) == -1:
+        dimension_name = '§c地狱'
+    for i in range(0,len(name)):
+        result=[]
+        if int(dimension[i]) == dim:
+            result.append(name[i])
+        server.tell(info.player, '§b[Waypoints]§r在维度{}§r里共有导航点§d{}§r个，列表如下：{}'.format(dimension_name,len(result),result))
 
 def get_pos(server,info):
     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
@@ -216,3 +227,16 @@ def on_info(server,info):
                     showdetail(server,info,message[2])
                 else:
                     server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+
+            if message[1] == 'dim':
+                if len(message) == 2:
+                    PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
+                    nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
+                    dimshow(server,info,nbt['Dimension'])
+                if len(message) == 3:
+                    dim=int(message[2])
+                    if dim == 1 or dim == 0 or dim == -1:
+                        dimshow(server,info,dim)
+                    else:
+                        server.tell(info.player, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§4获取使用信息！')
+
