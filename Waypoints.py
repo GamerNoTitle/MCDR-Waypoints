@@ -84,8 +84,8 @@ def add(server,info,message):
         x=message[3]
         y=message[4]
         z=message[5]
-        Dimension=message[6]
-        if type(Dimension) == 'int':
+        try:
+            Dimension=int(message[6])
             if Dimension>1 or Dimension<-1:
                 server.tell(info.player,'§b[Waypoints]§4你必须输入介于-1到1之间的整数！')
             else:
@@ -93,7 +93,7 @@ def add(server,info,message):
                 append_csv(path,data)
                 refresh_list()
                 server.tell(info.player, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension))
-        else:
+        except:
             server.tell(info.player,'§b[Waypoints]§4你必须输入整数！')
     else:
         server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')    
