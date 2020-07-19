@@ -230,12 +230,15 @@ def on_info(server,info):
                 else:
                     add(server,info,message)
             if message[1] == 'del':
-                if len(message) == 2:
-                    server.tell(info.player, '§b[Waypoints]§4你必须输入要删除的路径点名字！')
-                elif len(message) == 3:
-                    delete(server,info,message[2])
+                if(server.get_permission_level(info)>2):
+                    if len(message) == 2:
+                        server.tell(info.player, '§b[Waypoints]§4你必须输入要删除的路径点名字！')
+                    elif len(message) == 3:
+                        delete(server,info,message[2])
+                    else:
+                        server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
                 else:
-                    server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+                    server.tell(info.player, '§b[Waypoints]§4权限不足！')
             
             if message[1] == 'reload':
                 try:
