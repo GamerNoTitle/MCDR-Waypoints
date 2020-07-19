@@ -18,6 +18,8 @@
 
 `!!wp reload`重载路径点列表
 
+赞助：[爱发电](https://afdian.net/@GamerNoTitle)
+
 ## 下一步开发内容
 - [ ] 自动识别玩家发布的Volexmap路径点信息并记录入数据库 
 
