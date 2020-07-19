@@ -14,7 +14,7 @@
 
 `!!wp add <name> (x) (y) (z) (Dimension)`添加位置为x,y,z，维度为Dimension的导航点，x,y,z,Dimension非必填，若不填写将获取玩家当前位置和维度，也可以只填写坐标不填写维度
 
-`!!wp del <name>`删除名为name的导航点（需要MCDR.Helper权限及以上）
+`!!wp del <name>`删除名为name的导航点（需要MCDR.Helper权限及以上，可以在文件最开始关掉）
 
 `!!wp reload`重载路径点列表
 
