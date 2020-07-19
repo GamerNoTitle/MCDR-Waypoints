@@ -133,7 +133,7 @@ def delete(server,info,point):
             data=[name[i],x[i],y[i],z[i],dimension[i]]
             append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§r名为§d{}的导航点已经删除！'.format(point))
+        server.tell(info.player, '§b[Waypoints]§r名为§d{}§r的导航点已经删除！'.format(point))
 
 
 def showdetail(server,info,point):
