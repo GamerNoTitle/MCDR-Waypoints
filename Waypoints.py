@@ -16,6 +16,8 @@ dimension=[]
 complicated=False
 help_msg='''
 ======== §bWaypoints §r========
+§6欢迎使用由@GamerNoTitle开发的路径点插件！
+§6你可以在Github搜索MCDR-Waypoints找到本项目！
 本插件中§d!!wp§r与§d!!waypoints§r效果相同，两者可以互相替换
 §b!!wp§r显示本帮助信息
 §b!!wp list§r显示路径点列表
