@@ -12,6 +12,7 @@ name=[]
 x=[]
 y=[]
 z=[]
+dimension=[]
 complicated=False
 help_msg='''
 ======== §bWaypoints §r========
@@ -19,7 +20,8 @@ help_msg='''
 §b!!wp§r显示本帮助信息
 §b!!wp list§r显示路径点列表
 §b!!wp search <content>§r搜索含有指定内容名字的路径点
-§b!!wp show <content>§r显示名字为指定内容的导航点信息
+§b!!wp show <content> (dim)§r显示名字为指定内容的导航点信息（dim为维度，主世界/地狱/末地/全部维度分别对应0/1/-1/all，默认为当前维度）
+§b!!wp dim <dim>§r显示在主世界/地狱/末地的所有导航点（分别对应dim：0,-1,1）
 §b!!wp add <name> (x) (y) (z) (Dimension) §r添加名为<name>的路径点（x,y,z指定坐标，Dimension为维度，0是主世界，-1是地狱，1是末地，非必须）
 §b!!wp del <name>§r删除名为<name>的路径点（需要MCDR.helper以上权限）
 §b!!wp reload§r重载路径点列表
@@ -32,7 +34,7 @@ def refresh_list():
     y=[]
     z=[]
     dimension=[]
-    file=open(path,'r',encoding='utf8')
+    file=open(path,'r',encoding='gbk')
     database=csv.reader(file)
     for i in database:
         name.append(i[0])
@@ -105,6 +107,18 @@ def is_duplicated(point):
 def delete(server,info,point):
     None
 
+def showdetail(server,info,point):
+    is_exist=False
+    for i in range(0,len(name)):
+        if point == name[i]:
+            is_exist=True
+            detail='[name: {}, x: {}, y: {}, z: {}, dim: {}]'.format(point,x[i],y[i],z[i],dimension[i])
+    if is_exist:
+        server.tell(info.player, '§b[Waypoints]§r导航点§d{}§r的信息：{}'.format(point,detail))
+        is_exist=False
+    else:
+        server.tell(info.player, '§b[Waypoints]§4未查询到名为§d{}§4的导航点的相关信息！'.format(point))
+
 def showlist(server,info):
     if len(name) == 0:
         server.tell(info.player, '§b[Waypoints]§6导航点列表还是空荡荡的哦~')
@@ -118,8 +132,30 @@ def showlist(server,info):
         server.tell(info.player, '§b[Waypoints]§r数据库中有以下导航点： {}'.format(pointlist))
         server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
 
-def search(server,info,point):
-    None
+def search(server,info,point,dim):
+    result=[]
+    if dim == 'all':
+        for i in range(0,len(name)):
+            if point in name[i]:
+                result.append(name[i])
+        if result == []:
+            server.tell(info.player, '§b[Waypoints]§r暂时没有含有§d{}§r关键词的路径点哦~'.format(point))
+        else:
+            server.tell(info.player, '§b[Waypoints]§r含有关键词§d{}§r的路径点有§6{}'.format(point,result))
+            server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
+    elif int(dim) == 1 or int(dim) == -1 or int(dim) == 0:
+        for i in range(0,len(name)):
+            if point in name[i] and int(dimension[i]) == dim:
+                result.append(name[i])
+        if result == []:
+            server.tell(info.player, '§b[Waypoints]§r暂时没有含有§d{}§r关键词的路径点哦~'.format(point))
+        else:
+            server.tell(info.player, '§b[Waypoints]§r含有关键词§d{}§r的路径点有§6{}'.format(point,result))
+            server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
+    else:
+        server.tell(info.player, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§r获取使用方法！')
+
+
 
 def get_pos(server,info):
     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
@@ -164,5 +200,19 @@ def on_info(server,info):
             if message[1] == 'search':
                 if len(message) == 2:
                     server.tell(info.player, '§b[Waypoints]§4请在命令后输入查询的导航点关键词！')
-                if len(message) == 3:
-                    None
+                elif len(message) == 3:
+                    PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
+                    nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
+                    search(server,info,message[2],nbt['Dimension'])
+                elif len(message) == 4:
+                    search(server,info,message[2],message[3])
+                else:
+                    server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+            
+            if message[1] == 'show':
+                if len(message) == 2:
+                    server.tell(info.player, '§b[Waypoints]§4请在命令后输入展示的导航点名称！')
+                elif len(message) == 3:
+                    showdetail(server,info,message[2])
+                else:
+                    server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
