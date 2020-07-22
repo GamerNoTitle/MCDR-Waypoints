@@ -189,7 +189,7 @@ def dimshow(server,info,dim):
     if int(dim) == 0:
         dimension_name = '§a主世界'
     if int(dim) == 1:
-        dimension_name = '§2末地'
+        dimension_name = '§5末地'
     if int(dim) == -1:
         dimension_name = '§c地狱'
     result=[]
