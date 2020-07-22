@@ -200,7 +200,7 @@ def dimshow(server,info,dim):
 
 def on_load(server, old_module):
     refresh_list()
-    server.add_help_message('!!wp', '§b!!wp §f获取Waypoints插件使用方法')
+    server.add_help_message('!!wp', '获取Waypoints插件使用方法')
 
 def get_pos(server,info):
     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
