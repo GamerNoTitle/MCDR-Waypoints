@@ -47,6 +47,18 @@ def refresh_list():
         dimension.append(i[4])
     complicated==False
 
+def change_dim(dim):
+    dimlist={
+        "minecraft:overworld": 0,
+        "minecraft:the_nether": -1,
+        "minecraft:end": 1
+    }
+    try:
+        changed_dim=dimlist[str(dim)]
+    except:
+        change_dim=0
+    return changed_dim
+
 def create_csv(path):
     with open(path,"w+",newline='',encoding="gbk") as file:
         file.close()
@@ -61,9 +73,9 @@ def add(server,info,message):
     if len(message) == 2:
         server.tell(info.player, '§b[Waypoints]§4你必须输入路径点的名字！')
     elif len(message) == 3:
-        nbt=get_pos(server,info)
-        pos=list(nbt['Pos'])
-        Dimension=nbt['Dimension']
+        pos,Dimension=get_pos(server,info)
+        if type(Dimension) != 'int':
+            Dimension=change_dim(Dimension)
         x=int(list(pos)[0])
         y=int(list(pos)[1])
         z=int(list(pos)[2])
@@ -75,8 +87,9 @@ def add(server,info,message):
         x=message[3]
         y=message[4]
         z=message[5]
-        nbt=get_pos(server,info)
-        Dimension=nbt['Dimension']
+        pos,Dimension=get_pos(server,info)
+        if type(Dimension) != 'int':
+            Dimension=change_dim(Dimension)
         data=[message[2],x,y,z,Dimension]
         append_csv(path,data)
         refresh_list()
@@ -204,8 +217,9 @@ def on_load(server, old_module):
 
 def get_pos(server,info):
     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
-    nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
-    return nbt
+    pos=PlayerInfoAPI.getPlayerInfo(server, info.player, 'Pos')
+    dim=PlayerInfoAPI.getPlayerInfo(server, info.player, 'Dimension')
+    return pos,dim
 
 def on_server_startup(server):
     if os.path.exists(path):
