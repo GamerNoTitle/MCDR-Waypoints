@@ -56,7 +56,7 @@ def change_dim(dim):
     try:
         changed_dim=dimlist[str(dim)]
     except:
-        change_dim=0
+        changed_dim=0
     return changed_dim
 
 def create_csv(path):
@@ -74,7 +74,9 @@ def add(server,info,message):
         server.tell(info.player, '§b[Waypoints]§4你必须输入路径点的名字！')
     elif len(message) == 3:
         pos,Dimension=get_pos(server,info)
-        if type(Dimension) != 'int':
+        try:
+            Dimension=int(Dimension)
+        except:
             Dimension=change_dim(Dimension)
         x=int(list(pos)[0])
         y=int(list(pos)[1])
@@ -88,7 +90,9 @@ def add(server,info,message):
         y=message[4]
         z=message[5]
         pos,Dimension=get_pos(server,info)
-        if type(Dimension) != 'int':
+        try:
+            Dimension=int(Dimension)
+        except:
             Dimension=change_dim(Dimension)
         data=[message[2],x,y,z,Dimension]
         append_csv(path,data)
