@@ -217,8 +217,9 @@ def on_load(server, old_module):
 
 def get_pos(server,info):
     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
-    nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
-    return nbt
+    pos=PlayerInfoAPI.getPlayerInfo(server, info.player, 'Pos')
+    dim=PlayerInfoAPI.getPlayerInfo(server, info.player, 'Dimension')
+    return pos,dim
 
 def on_server_startup(server):
     if os.path.exists(path):
