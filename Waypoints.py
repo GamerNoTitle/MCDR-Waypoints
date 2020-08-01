@@ -192,7 +192,7 @@ def search(server,info,point,dim):
             server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
     elif int(dim) == 1 or int(dim) == -1 or int(dim) == 0:
         for i in range(0,len(name)):
-            if str(point) in str(name[i]) and int(dimension[i]) == dim:
+            if str(point) in str(name[i]) and int(dimension[i]) == str(dim):
                 result.append(name[i])
         if result == []:
             server.tell(info.player, '§b[Waypoints]§4暂时没有含有§d{}§4关键词的路径点哦~'.format(point))

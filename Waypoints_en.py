@@ -192,7 +192,7 @@ def search(server,info,point,dim):
             server.tell(info.player, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.')
     elif int(dim) == 1 or int(dim) == -1 or int(dim) == 0:
         for i in range(0,len(name)):
-            if str(point) in str(name[i]) and int(dimension[i]) == dim:
+            if str(point) in str(name[i]) and int(dimension[i]) == str(dim):
                 result.append(name[i])
         if result == []:
             server.tell(info.player, '§b[Waypoints]§4Cannot find a waypoint with content §d{}§4!'.format(point))
