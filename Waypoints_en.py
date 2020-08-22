@@ -71,7 +71,7 @@ def append_csv(path,data):
 
 def add(server,info,message):
     if len(message) == 2:
-        server.tell(info.player, '§b[Waypoints]§4You must input the name of the waypoint!')
+        server.reply(info, '§b[Waypoints]§4You must input the name of the waypoint!',encoding=None)
     elif len(message) == 3:
         pos,Dimension=get_pos(server,info)
         try:
@@ -84,7 +84,7 @@ def add(server,info,message):
         data=[str(message[2]),str(x),str(y),str(z),str(Dimension)]
         append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§rWaypoint [name: {}, x: {}, y: {}, z: {}, dim: {}] has been added.'.format(message[2],x,y,z,Dimension))
+        server.reply(info, '§b[Waypoints]§rWaypoint [name: {}, x: {}, y: {}, z: {}, dim: {}] has been added.'.format(message[2],x,y,z,Dimension),encoding=None)
     elif len(message) == 6:
         x=message[3]
         y=message[4]
@@ -97,7 +97,7 @@ def add(server,info,message):
         data=[message[2],x,y,z,Dimension]
         append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§rWaypoint [name: {}, x: {}, y: {}, z: {}, dim: {}] has been added.'.format(message[2],x,y,z,Dimension))
+        server.reply(info, '§b[Waypoints]§rWaypoint [name: {}, x: {}, y: {}, z: {}, dim: {}] has been added.'.format(message[2],x,y,z,Dimension),encoding=None)
     elif len(message) == 7:
         x=message[3]
         y=message[4]
@@ -105,16 +105,16 @@ def add(server,info,message):
         try:
             Dimension=int(message[6])
             if Dimension>1 or Dimension<-1:
-                server.tell(info.player,'§b[Waypoints]§4 You must input a integer between -1 to 1!')
+                server.reply(info,'§b[Waypoints]§4 You must input a integer between -1 to 1!',encoding=None)
             else:
                 data=[message[2],x,y,z,Dimension]
                 append_csv(path,data)
                 refresh_list()
-                server.tell(info.player, '§b[Waypoints]§rWaypoint [name: {}, x: {}, y: {}, z: {}, dim: {}] has been added.'.format(message[2],x,y,z,Dimension))
+                server.reply(info, '§b[Waypoints]§rWaypoint [name: {}, x: {}, y: {}, z: {}, dim: {}] has been added.'.format(message[2],x,y,z,Dimension),encoding=None)
         except:
-            server.tell(info.player,'§b[Waypoints]§4You must input a integer!')
+            server.reply(info,'§b[Waypoints]§4You must input a integer!',encoding=None)
     else:
-        server.tell(info.player, '§b[Waypoints]§4The format you input is wrong!')    
+        server.reply(info, '§b[Waypoints]§4The format you input is wrong!',encoding=None)    
 
 def is_duplicated(point):
     i=0
@@ -129,7 +129,7 @@ def delete(server,info,point):
         if point == name[i]:
             point_pos=i
     if point_pos == None:
-        server.tell(info.player, '§b[Waypoints]§4Cannot find a waypoint with name §d{}§4'.format(point))
+        server.reply(info, '§b[Waypoints]§4Cannot find a waypoint with name §d{}§4'.format(point),encoding=None)
     else:
         for i in range(point_pos,len(name)):
             try:
@@ -151,7 +151,7 @@ def delete(server,info,point):
             data=[name[i],x[i],y[i],z[i],dimension[i]]
             append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§rThe waypoint §d{}§r has been deleted successfully!'.format(point))
+        server.reply(info, '§b[Waypoints]§rThe waypoint §d{}§r has been deleted successfully!'.format(point),encoding=None)
 
 
 def showdetail(server,info,point):
@@ -161,14 +161,14 @@ def showdetail(server,info,point):
             is_exist=True
             detail='[name: {}, x: {}, y: {}, z: {}, dim: {}]'.format(point,x[i],y[i],z[i],dimension[i])
     if is_exist:
-        server.tell(info.player, '§b[Waypoints]§rThe detail of the waypoint §d{}§ris: {}'.format(point,detail))
+        server.reply(info, '§b[Waypoints]§rThe detail of the waypoint §d{}§ris: {}'.format(point,detail),encoding=None)
         is_exist=False
     else:
-        server.tell(info.player, '§b[Waypoints]§4Cannot find a waypoint with name §d{}§4!'.format(point))
+        server.reply(info, '§b[Waypoints]§4Cannot find a waypoint with name §d{}§4!'.format(point),encoding=None)
 
 def showlist(server,info):
     if len(name) == 0:
-        server.tell(info.player, '§b[Waypoints]§6There\'s nothing in waypoints list')
+        server.reply(info, '§b[Waypoints]§6There\'s nothing in waypoints list',encoding=None)
     else:
         pointlist=''
         for i in range(0,len(name)):
@@ -176,8 +176,8 @@ def showlist(server,info):
                 pointlist=pointlist+name[i]
             else:
                 pointlist=pointlist+name[i]+', '
-        server.tell(info.player, '§b[Waypoints]§rThe following are the waypoints in database: {}'.format(pointlist))
-        server.tell(info.player, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.')
+        server.reply(info, '§b[Waypoints]§rThe following are the waypoints in database: {}'.format(pointlist),encoding=None)
+        server.reply(info, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.',encoding=None)
 
 def search(server,info,point,dim):
     result=[]
@@ -186,21 +186,21 @@ def search(server,info,point,dim):
             if str(point) in str(name[i]):
                 result.append(name[i])
         if result == []:
-            server.tell(info.player, '§b[Waypoints]§4Cannot find a waypoint with content §d{}§4!'.format(point))
+            server.reply(info, '§b[Waypoints]§4Cannot find a waypoint with content §d{}§4!'.format(point),encoding=None)
         else:
-            server.tell(info.player, '§b[Waypoints]§rThe following are the waypoints with d{}§r: §6{}'.format(point,result))
-            server.tell(info.player, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.')
+            server.reply(info, '§b[Waypoints]§rThe following are the waypoints with d{}§r: §6{}'.format(point,result),encoding=None)
+            server.reply(info, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.',encoding=None)
     elif int(dim) == 1 or int(dim) == -1 or int(dim) == 0:
         for i in range(0,len(name)):
             if str(point) in str(name[i]) and int(dimension[i]) == str(dim):
                 result.append(name[i])
         if result == []:
-            server.tell(info.player, '§b[Waypoints]§4Cannot find a waypoint with content §d{}§4!'.format(point))
+            server.reply(info, '§b[Waypoints]§4Cannot find a waypoint with content §d{}§4!'.format(point),encoding=None)
         else:
-            server.tell(info.player, '§b[Waypoints]§rThe following are the waypoints with §d{}§r: §6{}'.format(point,result))
-            server.tell(info.player, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.')
+            server.reply(info, '§b[Waypoints]§rThe following are the waypoints with §d{}§r: §6{}'.format(point,result),encoding=None)
+            server.reply(info, '§b[Waypoints]§rYou can use §b!!wp show <name> §rto show the detail of a waypoint.',encoding=None)
     else:
-        server.tell(info.player, '§b[Waypoints]§4Dimension wrong! Please use §b!!wp§r for more information!')
+        server.reply(info, '§b[Waypoints]§4Dimension wrong! Please use §b!!wp§r for more information!',encoding=None)
 
 def dimshow(server,info,dim):
     if int(dim) == 0:
@@ -213,7 +213,7 @@ def dimshow(server,info,dim):
     for i in range(0,len(name)):
         if int(dimension[i]) == dim:
             result.append(name[i])
-    server.tell(info.player, '§b[Waypoints]§rThere\'re {0}§r points in §d{1}§r: {}'.format(dimension_name,len(result),result))
+    server.reply(info, '§b[Waypoints]§rThere\'re {0}§r points in §d{1}§r: {}'.format(dimension_name,len(result),result),encoding=None)
 
 def on_load(server, old_module):
     refresh_list()
@@ -238,13 +238,13 @@ def on_info(server,info):
     if prefix in info.content or prefix_short in info.content:
         message=info.content.split()
         if info.content == prefix or info.content == prefix_short:
-            server.tell(info.player, help_msg)
+            server.reply(info, help_msg,encoding=None)
         elif message[0] == prefix or message[0] == prefix_short:
             if message[1] == 'add':
                 global complicated
                 is_duplicated(message[2])
                 if complicated==True:
-                    server.tell(info.player, '§b[Waypoints]§4The waypoint with name {} has already exists!'.format(message[2]))
+                    server.reply(info, '§b[Waypoints]§4The waypoint with name {} has already exists!'.format(message[2]),encoding=None)
                     refresh_list()
                     complicated=False
                 else:
@@ -253,34 +253,34 @@ def on_info(server,info):
                 if permission_check:
                     if(server.get_permission_level(info)>2):
                         if len(message) == 2:
-                            server.tell(info.player, '§b[Waypoints]§4You must input the name of the waypoint you want to delete!')
+                            server.reply(info, '§b[Waypoints]§4You must input the name of the waypoint you want to delete!',encoding=None)
                         elif len(message) == 3:
                             delete(server,info,message[2])
                         else:
-                            server.tell(info.player, '§b[Waypoints]§4Wrong format!')
+                            server.reply(info, '§b[Waypoints]§4Wrong format!',encoding=None)
                     else:
-                        server.tell(info.player, '§b[Waypoints]§4Permission Denied!')
+                        server.reply(info, '§b[Waypoints]§4Permission Denied!',encoding=None)
                 else:
                     if len(message) == 2:
-                        server.tell(info.player, '§b[Waypoints]§4You must input the name of the waypoint you want to delete!')
+                        server.reply(info, '§b[Waypoints]§4You must input the name of the waypoint you want to delete!',encoding=None)
                     elif len(message) == 3:
                         delete(server,info,message[2])
                     else:
-                        server.tell(info.player, '§b[Waypoints]§4Wrong format!')
+                        server.reply(info, '§b[Waypoints]§4Wrong format!',encoding=None)
 
             if message[1] == 'reload':
                 try:
                     refresh_list()
-                    server.say('§b[Waypoints]§aThe reload operation by §d{}§a has run successfully!'.format(info.player))
+                    server.say('§b[Waypoints]§aThe reload operation by §d{}§a has run successfully!'.format(info.player),encoding=None)
                 except Exception as e:
-                    server.say('§b[Waypoints]§4The reload operation by §d{}§4 has run failed：{}'.format(info.player,e))
+                    server.say('§b[Waypoints]§4The reload operation by §d{}§4 has run failed：{}'.format(info.player,e),encoding=None)
 
             if message[1] == 'list':
                 showlist(server,info)
 
             if message[1] == 'search':
                 if len(message) == 2:
-                    server.tell(info.player, '§b[Waypoints]§4Please type the content you want to search!')
+                    server.reply(info, '§b[Waypoints]§4Please type the content you want to search!',encoding=None)
                 elif len(message) == 3:
                     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
                     nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
@@ -288,15 +288,15 @@ def on_info(server,info):
                 elif len(message) == 4:
                     search(server,info,message[2],message[3])
                 else:
-                    server.tell(info.player, '§b[Waypoints]§4Wrong format!')
+                    server.reply(info, '§b[Waypoints]§4Wrong format!',encoding=None)
             
             if message[1] == 'show':
                 if len(message) == 2:
-                    server.tell(info.player, '§b[Waypoints]§4Please input the name of the waypoint you want to show!')
+                    server.reply(info, '§b[Waypoints]§4Please input the name of the waypoint you want to show!',encoding=None)
                 elif len(message) == 3:
                     showdetail(server,info,message[2])
                 else:
-                    server.tell(info.player, '§b[Waypoints]§4Wrong format!')
+                    server.reply(info, '§b[Waypoints]§4Wrong format!',encoding=None)
 
             if message[1] == 'dim':
                 if len(message) == 2:
@@ -308,5 +308,5 @@ def on_info(server,info):
                     if dim == 1 or dim == 0 or dim == -1:
                         dimshow(server,info,dim)
                     else:
-                        server.tell(info.player, '§b[Waypoints]§4Wrong dimension! Please type §b!!wp§4 for more information!')
+                        server.reply(info, '§b[Waypoints]§4Wrong dimension! Please type §b!!wp§4 for more information!',encoding=None)
 

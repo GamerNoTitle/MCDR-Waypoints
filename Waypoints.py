@@ -71,7 +71,7 @@ def append_csv(path,data):
 
 def add(server,info,message):
     if len(message) == 2:
-        server.tell(info.player, '§b[Waypoints]§4你必须输入路径点的名字！')
+        server.reply(info, '§b[Waypoints]§4你必须输入路径点的名字！',encoding=None)
     elif len(message) == 3:
         pos,Dimension=get_pos(server,info)
         try:
@@ -84,7 +84,7 @@ def add(server,info,message):
         data=[str(message[2]),str(x),str(y),str(z),str(Dimension)]
         append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension))
+        server.reply(info, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension),encoding=None)
     elif len(message) == 6:
         x=message[3]
         y=message[4]
@@ -97,7 +97,7 @@ def add(server,info,message):
         data=[message[2],x,y,z,Dimension]
         append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension))
+        server.reply(info, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension),encoding=None)
     elif len(message) == 7:
         x=message[3]
         y=message[4]
@@ -105,16 +105,16 @@ def add(server,info,message):
         try:
             Dimension=int(message[6])
             if Dimension>1 or Dimension<-1:
-                server.tell(info.player,'§b[Waypoints]§4你必须输入介于-1到1之间的整数！')
+                server.reply(info,'§b[Waypoints]§4你必须输入介于-1到1之间的整数！',encoding=None)
             else:
                 data=[message[2],x,y,z,Dimension]
                 append_csv(path,data)
                 refresh_list()
-                server.tell(info.player, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension))
+                server.reply(info, '§b[Waypoints]§r导航点[name: {}, x: {}, y: {}, z: {}, dim: {}]已添加！'.format(message[2],x,y,z,Dimension),encoding=None)
         except:
-            server.tell(info.player,'§b[Waypoints]§4你必须输入整数！')
+            server.reply(info,'§b[Waypoints]§4你必须输入整数！',encoding=None)
     else:
-        server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')    
+        server.reply(info, '§b[Waypoints]§4输入格式不正确！',encoding=None)    
 
 def is_duplicated(point):
     i=0
@@ -129,7 +129,7 @@ def delete(server,info,point):
         if point == name[i]:
             point_pos=i
     if point_pos == None:
-        server.tell(info.player, '§b[Waypoints]§4未找到名为§d{}§4的路径点！'.format(point))
+        server.reply(info, '§b[Waypoints]§4未找到名为§d{}§4的路径点！'.format(point),encoding=None)
     else:
         for i in range(point_pos,len(name)):
             try:
@@ -151,7 +151,7 @@ def delete(server,info,point):
             data=[name[i],x[i],y[i],z[i],dimension[i]]
             append_csv(path,data)
         refresh_list()
-        server.tell(info.player, '§b[Waypoints]§r名为§d{}§r的导航点已经删除！'.format(point))
+        server.reply(info, '§b[Waypoints]§r名为§d{}§r的导航点已经删除！'.format(point),encoding=None)
 
 
 def showdetail(server,info,point):
@@ -159,16 +159,16 @@ def showdetail(server,info,point):
     for i in range(0,len(name)):
         if point == name[i]:
             is_exist=True
-            detail='[name: {}, x: {}, y: {}, z: {}, dim: {}]'.format(point,x[i],y[i],z[i],dimension[i])
+            detail='[name: {}, x: {}, y: {}, z: {}, dim: {}]'.format(point,x[i],y[i],z[i],dimension[i],encoding=None)
     if is_exist:
-        server.tell(info.player, '§b[Waypoints]§r导航点§d{}§r的信息：{}'.format(point,detail))
+        server.reply(info, '§b[Waypoints]§r导航点§d{}§r的信息：{}'.format(point,detail),encoding=None)
         is_exist=False
     else:
-        server.tell(info.player, '§b[Waypoints]§4未查询到名为§d{}§4的导航点的相关信息！'.format(point))
+        server.reply(info, '§b[Waypoints]§4未查询到名为§d{}§4的导航点的相关信息！'.format(point),encoding=None)
 
 def showlist(server,info):
     if len(name) == 0:
-        server.tell(info.player, '§b[Waypoints]§6导航点列表还是空荡荡的哦~')
+        server.reply(info, '§b[Waypoints]§6导航点列表还是空荡荡的哦~',encoding=None)
     else:
         pointlist=''
         for i in range(0,len(name)):
@@ -176,8 +176,8 @@ def showlist(server,info):
                 pointlist=pointlist+name[i]
             else:
                 pointlist=pointlist+name[i]+', '
-        server.tell(info.player, '§b[Waypoints]§r数据库中有以下导航点： {}'.format(pointlist))
-        server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
+        server.reply(info, '§b[Waypoints]§r数据库中有以下导航点： {}'.format(pointlist),encoding=None)
+        server.reply(info, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息',encoding=None)
 
 def search(server,info,point,dim):
     result=[]
@@ -186,21 +186,21 @@ def search(server,info,point,dim):
             if str(point) in str(name[i]):
                 result.append(name[i])
         if result == []:
-            server.tell(info.player, '§b[Waypoints]§4暂时没有含有§d{}§4关键词的路径点哦~'.format(point))
+            server.reply(info, '§b[Waypoints]§4暂时没有含有§d{}§4关键词的路径点哦~'.format(point),encoding=None)
         else:
-            server.tell(info.player, '§b[Waypoints]§r含有关键词§d{}§r的路径点有§6{}'.format(point,result))
-            server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
+            server.reply(info, '§b[Waypoints]§r含有关键词§d{}§r的路径点有§6{}'.format(point,result),encoding=None)
+            server.reply(info, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息',encoding=None)
     elif int(dim) == 1 or int(dim) == -1 or int(dim) == 0:
         for i in range(0,len(name)):
             if str(point) in str(name[i]) and int(dimension[i]) == str(dim):
                 result.append(name[i])
         if result == []:
-            server.tell(info.player, '§b[Waypoints]§4暂时没有含有§d{}§4关键词的路径点哦~'.format(point))
+            server.reply(info, '§b[Waypoints]§4暂时没有含有§d{}§4关键词的路径点哦~'.format(point),encoding=None)
         else:
-            server.tell(info.player, '§b[Waypoints]§r含有关键词§d{}§r的路径点有§6{}'.format(point,result))
-            server.tell(info.player, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息')
+            server.reply(info, '§b[Waypoints]§r含有关键词§d{}§r的路径点有§6{}'.format(point,result),encoding=None)
+            server.reply(info, '§b[Waypoints]§r你可以使用§b!!wp show <name> §r来展示导航点的相关信息',encoding=None)
     else:
-        server.tell(info.player, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§r获取使用方法！')
+        server.reply(info, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§r获取使用方法！',encoding=None)
 
 def dimshow(server,info,dim):
     if int(dim) == 0:
@@ -213,7 +213,7 @@ def dimshow(server,info,dim):
     for i in range(0,len(name)):
         if int(dimension[i]) == dim:
             result.append(name[i])
-    server.tell(info.player, '§b[Waypoints]§r在维度{}§r里共有导航点§d{}§r个，列表如下：{}'.format(dimension_name,len(result),result))
+    server.reply(info, '§b[Waypoints]§r在维度{}§r里共有导航点§d{}§r个，列表如下：{}'.format(dimension_name,len(result),result),encoding=None)
 
 def on_load(server, old_module):
     refresh_list()
@@ -238,13 +238,13 @@ def on_info(server,info):
     if prefix in info.content or prefix_short in info.content:
         message=info.content.split()
         if info.content == prefix or info.content == prefix_short:
-            server.tell(info.player, help_msg)
+            server.reply(info, help_msg,encoding=None)
         elif message[0] == prefix or message[0] == prefix_short:
             if message[1] == 'add':
                 global complicated
                 is_duplicated(message[2])
                 if complicated==True:
-                    server.tell(info.player, '§b[Waypoints]§4名为{}的路径点已存在！'.format(message[2]))
+                    server.reply(info, '§b[Waypoints]§4名为{}的路径点已存在！'.format(message[2]),encoding=None)
                     refresh_list()
                     complicated=False
                 else:
@@ -253,34 +253,34 @@ def on_info(server,info):
                 if permission_check:
                     if(server.get_permission_level(info)>2):
                         if len(message) == 2:
-                            server.tell(info.player, '§b[Waypoints]§4你必须输入要删除的路径点名字！')
+                            server.reply(info, '§b[Waypoints]§4你必须输入要删除的路径点名字！',encoding=None)
                         elif len(message) == 3:
                             delete(server,info,message[2])
                         else:
-                            server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+                            server.reply(info, '§b[Waypoints]§4输入格式不正确！',encoding=None)
                     else:
-                        server.tell(info.player, '§b[Waypoints]§4权限不足！')
+                        server.reply(info, '§b[Waypoints]§4权限不足！',encoding=None)
                 else:
                     if len(message) == 2:
-                        server.tell(info.player, '§b[Waypoints]§4你必须输入要删除的路径点名字！')
+                        server.reply(info, '§b[Waypoints]§4你必须输入要删除的路径点名字！',encoding=None)
                     elif len(message) == 3:
                         delete(server,info,message[2])
                     else:
-                        server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+                        server.reply(info, '§b[Waypoints]§4输入格式不正确！',encoding=None)
 
             if message[1] == 'reload':
                 try:
                     refresh_list()
-                    server.say('§b[Waypoints]§a由玩家§d{}§a发起的Waypoints重载成功'.format(info.player))
+                    server.say('§b[Waypoints]§a由玩家§d{}§a发起的Waypoints重载成功'.format(info.player),encoding=None)
                 except Exception as e:
-                    server.say('§b[Waypoints]§4由玩家§d{}§4发起的Waypoints重载失败：{}'.format(info.player,e))
+                    server.say('§b[Waypoints]§4由玩家§d{}§4发起的Waypoints重载失败：{}'.format(info.player,e),encoding=None)
 
             if message[1] == 'list':
                 showlist(server,info)
 
             if message[1] == 'search':
                 if len(message) == 2:
-                    server.tell(info.player, '§b[Waypoints]§4请在命令后输入查询的导航点关键词！')
+                    server.reply(info, '§b[Waypoints]§4请在命令后输入查询的导航点关键词！',encoding=None)
                 elif len(message) == 3:
                     PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
                     nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
@@ -288,15 +288,15 @@ def on_info(server,info):
                 elif len(message) == 4:
                     search(server,info,message[2],message[3])
                 else:
-                    server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+                    server.reply(info, '§b[Waypoints]§4输入格式不正确！',encoding=None)
             
             if message[1] == 'show':
                 if len(message) == 2:
-                    server.tell(info.player, '§b[Waypoints]§4请在命令后输入展示的导航点名称！')
+                    server.reply(info, '§b[Waypoints]§4请在命令后输入展示的导航点名称！',encoding=None)
                 elif len(message) == 3:
                     showdetail(server,info,message[2])
                 else:
-                    server.tell(info.player, '§b[Waypoints]§4输入格式不正确！')
+                    server.reply(info, '§b[Waypoints]§4输入格式不正确！',encoding=None)
 
             if message[1] == 'dim':
                 if len(message) == 2:
@@ -308,5 +308,5 @@ def on_info(server,info):
                     if dim == 1 or dim == 0 or dim == -1:
                         dimshow(server,info,dim)
                     else:
-                        server.tell(info.player, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§4获取使用信息！')
+                        server.reply(info, '§b[Waypoints]§4维度输入错误！请输入§b!!wp§4获取使用信息！',encoding=None)
 
