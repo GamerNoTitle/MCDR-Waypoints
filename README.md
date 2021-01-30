@@ -1,5 +1,11 @@
 # MCDR-Waypoints
 
+## WARNING/警告
+
+本分支只适配到MCDR1.0以下（不包括1.0）版本，MCDR1.0+请使用Master分支版本
+
+This branch only for MCDR 1.0 below (1.0 not included), MCDR1.0+ please use the master branch!
+
 [English](#English)
 
 这是一个服务器内全员共享的Volexmap的标记点插件，需要PlayerInfoAPI支持！
