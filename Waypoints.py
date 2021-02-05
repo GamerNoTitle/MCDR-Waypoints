@@ -38,10 +38,10 @@ def refresh_list():
     z=[]
     dimension=[]
     try:
-        file = open(path, 'r', encoding='gbk')
+        file=open(path,'r',encoding='gbk')
     except FileNotFoundError:
         create_csv(path)
-        file = open(path, 'r', encoding='gbk')
+        file=open(path,'r',encoding='gbk')
     database=csv.reader(file)
     for i in database:
         name.append(i[0])
@@ -286,9 +286,12 @@ def on_info(server,info):
                 if len(message) == 2:
                     server.reply(info, '§b[Waypoints]§4请在命令后输入查询的导航点关键词！',encoding=None)
                 elif len(message) == 3:
-                    PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
-                    nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
-                    search(server,info,message[2],nbt['Dimension'])
+                    if info.is_player:
+                        PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
+                        nbt = PlayerInfoAPI.getPlayerInfo(server, info.player)
+                        search(server,info,message[2],nbt['Dimension'])
+                    else:
+                        search(server, info, message[2], 'all')
                 elif len(message) == 4:
                     search(server,info,message[2],message[3])
                 else:
