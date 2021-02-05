@@ -286,9 +286,12 @@ def on_info(server,info):
                 if len(message) == 2:
                     server.reply(info, '§b[Waypoints]§4Please type the content you want to search!',encoding=None)
                 elif len(message) == 3:
-                    PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
-                    nbt=PlayerInfoAPI.getPlayerInfo(server, info.player)
-                    search(server,info,message[2],nbt['Dimension'])
+                    if info.is_player:
+                        PlayerInfoAPI = server.get_plugin_instance('PlayerInfoAPI')
+                        nbt = PlayerInfoAPI.getPlayerInfo(server, info.player)
+                        search(server,info,message[2],nbt['Dimension'])
+                    else:
+                        search(server, info, message[2], 'all')
                 elif len(message) == 4:
                     search(server,info,message[2],message[3])
                 else:
